@@ -3,6 +3,52 @@
 All notable changes to this project. Format loosely follows
 [Keep a Changelog](https://keepachangelog.com/); versions are pre-1.0 and may break.
 
+## [0.2.0] — 2026-11-10
+
+Reframes what this project is actually selling, and records the three failure modes found
+while retouching a high-altitude meadow frame (daylily + Lilium pumilum, noon hard light).
+
+### Changed
+
+- **The pitch now leads with "the photo is still yours", not "the result looks better".**
+  A generative model hands back *a different image*: detail smoothed away, upscaled and
+  re-drawn, plausibly invented content. You cannot tell which part you shot. Parameters are
+  opaque, unrollbackable, and impossible to discuss. The technical weaknesses (copying slider
+  values, open-loop editing, quantifying aesthetics) are now the *third* layer of the argument,
+  not the first. See `references/user-corrections.md` §32.
+- **Handover is now a hard delivery requirement** (`SKILL.md`): full global parameter table,
+  per-layer list including *what problem each layer solves*, which layers are structural vs.
+  taste, and a one-line rollback command. Returning a picture plus "done, take a look" is
+  explicitly called out as a failing delivery — it is indistinguishable from a generative
+  black box.
+- README / README.zh-CN: new "what it is" section stating this is an agent skill; the two
+  headline capabilities (ingest a web tutorial; parametric, reversible edits) moved to the top.
+
+### Added
+
+- **Pitfall 41 — preview fast-loop dies once masks are written.** `get_photo_previews` returned
+  `error loading thumb` on 6 consecutive attempts after the first mask write, and never
+  recovered. The 2–3 s verification loop only holds for the global phase.
+- **Pitfall 42 — star-shaped petals fall into the feather ramp.** An ellipse that visually
+  "covers" a lily still leaves the petal tips at r ≈ 0.85, where alpha is 0.3–0.5, so a
+  `EV −0.26` recovered almost nothing (36% → 34% red-channel clipping). Rule: compute
+  `r = √((dx/a)² + (dy/b)²)` for every petal tip and require **r ≤ 0.75**.
+- **Pitfall 43 — when a colour appears exactly once in frame, use the HSL band, not a mask.**
+  Desaturating a red lily inside an ellipse produced a visible elliptical halo (ring vs.
+  distant grass: 9.8 vs 5.1). Switching to `SaturationAdjustmentRed = −14` plus
+  `HueAdjustmentRed = −4` removed it entirely (4.96 vs. 5.10, Δ 0.15).
+- `check_skill.py`: 41 → **45** invariants, now guarding the new framing and handover rules.
+
+### Known limitations (updated)
+
+- **Red-channel clipping cannot always be recovered.** On backlit scarlet petals the channel is
+  near-saturated in the RAW; pulling exposure and desaturating reduces but does not eliminate
+  flat patches at 100% zoom.
+- **Clipping is a luminance problem, not a saturation problem.** A blown blue sky looks greyer,
+  not better, when you desaturate it — the fix is to darken it.
+- Single-image retouching is still slow. The real leverage is batch: calibrate a scene once,
+  then solve per image. Per-image judgement does not compress.
+
 ## [0.1.0] — 2026-11-10
 
 First public release.

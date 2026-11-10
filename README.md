@@ -71,9 +71,35 @@ diagnosis-to-final walkthroughs, including what went wrong.
 
 ## What this solves
 
-Most "AI photo editing" today sits at one of two levels: applying presets (every photo looks
-the same), or driving the UI with Computer Use (can't hit a slider precisely, can't build a
-dozen masks).
+### The biggest problem isn't the parameters — it's that you don't get your photo back
+
+Hand a photo to most AI editing tools and you get a *different* photo back. Behind the curtain:
+detail quietly smoothed away, upscaling applied, details **invented** where the model decided
+something belonged there. You can't tell which pixels are yours and which it imagined, and to
+change one thing you have to start over.
+
+A photograph's first value is *"I took this."* Once that's gone, everything layered on top is
+decoration.
+
+**This project never touches pixels — only parameters.** What comes back is your own negative,
+plus a set of Lightroom develop settings and masks.
+
+| | Generative / end-to-end AI retouching | This project |
+| --- | --- | --- |
+| What you get back | a new image | your image, with new settings |
+| Pixels | may be smoothed, upscaled or invented | untouched — not one byte |
+| Keep editing afterwards | start over | yes, in Lightroom, by hand |
+| Roll back | no | one command, back to zero |
+| Ask "why this value?" | no | every layer has a name, a reason, a measurement |
+| Discuss with the AI | "make it nicer" | "layer 9 is too heavy — halve it" |
+
+Underneath that, the three technical dead ends of conventional AI retouching:
+
+1. **Copying numbers.** A tutorial's `highlights −98, shadows +71` is that photographer's
+   answer on that photograph. On yours it's a disaster.
+2. **Open loop.** You change something and have no idea whether it went too far.
+3. **Aesthetics by arithmetic.** Judging "is this too red" with an RGB mean, and calling a dark
+   green forest crushed black.
 
 This project takes a different route: **run a plugin inside Lightroom and talk to it over a
 file queue.** The plugin executes in its own Lua interpreter with the same permissions as you
@@ -242,6 +268,18 @@ by field (0 differences or it fails) → export the final → build a stacked co
 **"Original" means a render with every parameter zeroed** — never a version the user already
 edited.
 
+### Handover — what you get besides the image
+
+An image alone is not a deliverable here. Along with it comes:
+
+- the **full global parameter table**
+- **every mask layer**: name, coverage, values, and *what it is for*
+- which layers are **structural** and which are **taste** (halve those freely, no need to ask)
+- the **backup path** and a one-line rollback command
+
+That is what makes the conversation possible: *"layer 9 is too heavy"* — or open that layer in
+Lightroom and change it yourself, without redoing anything else.
+
 ---
 
 ## Using online tutorials as reference
@@ -300,7 +338,7 @@ lr-ai-retouch/
 │   ├── closed-loop.md          # export → measure → judge
 │   ├── aesthetics.md           # the judgement measurement can't make
 │   ├── case-studies.md        # three complete diagnosis-to-final walkthroughs
-│   ├── pitfalls.md             # 40 documented failures, each with measured data
+│   ├── pitfalls.md             # 43 documented failures, each with measured data
 │   ├── user-corrections.md     # 31 corrections + a 12-point pre-delivery checklist
 │   └── bridge-setup.md         # plugin install and troubleshooting
 ├── scripts/
@@ -311,7 +349,7 @@ lr-ai-retouch/
 │   ├── orig_compare.py         # original ↔ final comparison (run before delivery)
 │   ├── auto_wb.py              # white balance diagnostics
 │   ├── qc.py / depth_qc.py     # quality checks
-│   └── check_skill.py          # self-check: 41 documentation invariants
+│   └── check_skill.py          # self-check: 45 documentation invariants
 └── assets/plugin/AIBridge.lrplugin/   # the Lightroom plugin itself (Lua)
 ```
 

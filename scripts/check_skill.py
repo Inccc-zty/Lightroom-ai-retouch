@@ -64,6 +64,10 @@ CHECKS = [
     ("33 教程搜索策略", "references/style-transfer.md", ["关键词公式", "两篇以上独立来源"]),
     ("34 贴纸感四因", "references/pitfalls.md", ["贴纸", "投影"]),
     ("35 光斑破形", "references/pitfalls.md", ["椭圆", "feather"]),
+    ("36 照片还是你的", "SKILL.md", ["不是你的照片", "不碰像素"]),
+    ("37 交接单", "SKILL.md", ["交接单", "骨架层"]),
+    ("38 对外表述顺序", "README.zh-CN.md", ["生成式", "一个字节都没动"]),
+    ("39 价值判断登记", "references/user-corrections.md", ["照片还是你的"]),
 ]
 
 
