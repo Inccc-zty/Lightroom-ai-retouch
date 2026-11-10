@@ -270,7 +270,7 @@ lr-ai-retouch/
 │   ├── orig_compare.py         # 原图 ↔ 定稿对比（收尾必跑）
 │   ├── auto_wb.py              # 白平衡诊断
 │   ├── qc.py / depth_qc.py     # 质量体检（风光专用）
-│   └── check_skill.py          # 自检：36 项文档完整性
+│   └── check_skill.py          # 自检：35 项文档完整性
 └── assets/plugin/AIBridge.lrplugin/   # Lightroom 插件本体（Lua）
 ```
 
