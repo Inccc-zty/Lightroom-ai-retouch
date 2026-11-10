@@ -1,6 +1,8 @@
-# lr-ai-retouch
+# Lightroom AI Retouch
 
 English | **[中文](README.zh-CN.md)**
+
+> Skill directory name: `lr-ai-retouch` · Repo: `Lightroom-ai-retouch`
 
 Let AI actually operate your Lightroom Classic — not by simulating mouse drags on sliders,
 but by reading and writing develop settings and local masks directly, verifying every change
@@ -64,7 +66,7 @@ this photo, it is not carried over from the last one.*
 
 ```bash
 # 1. Clone into your skills directory
-git clone https://github.com/<your-name>/lr-ai-retouch.git \
+git clone https://github.com/Inccc-zty/Lightroom-ai-retouch.git \
         ~/.workbuddy/skills/lr-ai-retouch
 
 # 2. Install the Lightroom plugin

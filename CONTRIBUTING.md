@@ -133,7 +133,7 @@ English and Chinese must stay in sync. If you change the Chinese docs, note
 ## 开发环境 · Dev setup
 
 ```bash
-git clone https://github.com/<your-name>/lr-ai-retouch.git
+git clone https://github.com/Inccc-zty/Lightroom-ai-retouch.git
 cd lr-ai-retouch
 python scripts/check_skill.py    # 文档完整性自检 / documentation self-check
 python scripts/lr_bridge.py ping # 需要 Lightroom 在运行 / requires Lightroom running

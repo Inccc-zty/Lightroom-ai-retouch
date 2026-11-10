@@ -1,6 +1,8 @@
-# lr-ai-retouch
+# Lightroom AI Retouch
 
-**中文** | [English](README.en.md)
+**中文** | [English](README.md)
+
+> Skill 目录名：`lr-ai-retouch` · 仓库名：`Lightroom-ai-retouch`
 
 让 AI 真正操作你的 Lightroom Classic —— 不是模拟鼠标拖滑块，而是直接读写 develop settings
 和局部蒙版；每一次改动都导出验证。量化只做护栏，审美留给你。
@@ -96,7 +98,7 @@ Camera Flat / Camera Standard / Camera Neutral / Adobe Landscape / Adobe Standar
 
 ```bash
 # 1. 放到 skills 目录
-git clone https://github.com/<your-name>/lr-ai-retouch.git \
+git clone https://github.com/Inccc-zty/Lightroom-ai-retouch.git \
         ~/.workbuddy/skills/lr-ai-retouch
 
 # 2. 装 Lightroom 插件
