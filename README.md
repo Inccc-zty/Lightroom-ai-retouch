@@ -181,8 +181,8 @@ python scripts/lr_bridge.py dump --path "/path/to/photo.NEF" > before.json
 python scripts/lr_bridge.py develop-set --path "/path/to/photo.NEF" --set Exposure2012=0.35
 
 # Add masks (dry run first, then --apply)
-python scripts/mask_append.py --path "/path/to/photo.NEF" --spec layers.json
-python scripts/mask_append.py --path "/path/to/photo.NEF" --spec layers.json --apply
+python scripts/mask_tool.py --path "/path/to/photo.NEF" --spec layers.json
+python scripts/mask_tool.py --path "/path/to/photo.NEF" --spec layers.json --apply
 
 # Export and run the quality checks
 python scripts/export_shot.py --path "/path/to/photo.NEF" --dest ./out --long-edge 2400
@@ -345,11 +345,14 @@ lr-ai-retouch/
 │   ├── lr_bridge.py            # bridge client (settings, masks, export)
 │   ├── lr_masks.py             # mask builders (including boolean layers)
 │   ├── mask_append.py          # append masks with backup + read-back verification
+│   ├── mask_tool.py            # main: batch-write layers from a spec, verify and read back
+│   ├── set_layer.py            # main: patch existing layers by name, never rewrite the tree
+│   ├── mask_fit.py             # solve safe radial semi-axes, or audit existing geometry
 │   ├── export_shot.py          # export with AI masks (handles the dialog)
 │   ├── orig_compare.py         # original ↔ final comparison (run before delivery)
 │   ├── auto_wb.py              # white balance diagnostics
 │   ├── qc.py / depth_qc.py     # quality checks
-│   └── check_skill.py          # self-check: 45 documentation invariants
+│   └── check_skill.py          # self-check: 49 documentation invariants
 └── assets/plugin/AIBridge.lrplugin/   # the Lightroom plugin itself (Lua)
 ```
 

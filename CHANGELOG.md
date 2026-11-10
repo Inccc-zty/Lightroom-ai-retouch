@@ -3,6 +3,51 @@
 All notable changes to this project. Format loosely follows
 [Keep a Changelog](https://keepachangelog.com/); versions are pre-1.0 and may break.
 
+## [0.2.1] — 2026-11-10
+
+Fixes the gap between what the docs promised and what the repo actually shipped.
+
+The v0.2.0 notes described the mask workflow but the three tools that workflow runs on —
+`mask_tool.py`, `set_layer.py`, `mask_fit.py` — were not in the repo. The first two lived in a
+private project directory with a hard-coded `C:\Users\...` import path; the third did not exist
+at all. Anyone cloning this repository would have found instructions they could not follow.
+Pitfall 42 was likewise documentation only: it told you to compute safe semi-axes by hand and
+gave no way to do it.
+
+### Added
+
+- **`scripts/mask_tool.py`** — the workhorse for writing layers: batch-write from a JSON spec,
+  AI subject / inverted background / boolean intersection, backup to disk, then read back and
+  diff every field. Path resolution is now relative to the script, so it runs from anywhere.
+- **`scripts/set_layer.py`** — patch existing layers **by name** without rewriting the mask
+  tree, with the same backup and read-back verification. Safer than a full tree-set when you
+  only want to change one layer's exposure.
+- **`scripts/mask_fit.py`** — solves the pitfall-42 problem numerically. Given a subject mask
+  (or just a bounding box) and the feather you intend to use, it returns the semi-axes that keep
+  every contour point above a target alpha; in `--spec` mode it audits existing geometry and
+  reports what fraction of the subject is being attenuated.
+
+  Model: `alpha(r) = clamp((1−r)/(feather/100), 0, 1)`, so "tip at alpha ≥ a" means
+  `r ≤ 1 − feather/100 × a`. Feather 32 with a 0.9 target gives **r ≤ 0.71**, not the 0.85 that
+  eyeballing suggests — and 0.85 is exactly where the earlier attempt failed.
+
+  Validated in both directions on the same red lily: the geometry that actually worked measures
+  `r_max 0.81 / 0.7% weak` and is graded OK; using the bounding box directly measures
+  `r_max 1.21 / 20.3% weak` and is graded insufficient.
+
+- `check_skill.py`: 45 → **49** invariants; the new four fail the build if these tools or the
+  ellipse rule ever disappear from the docs again.
+
+### Changed
+
+- Pitfall 42 now points at `mask_fit.py` instead of telling the reader to compute radii by hand,
+  and records the corrected threshold.
+- SKILL.md: a "run `mask_fit.py` before writing a pure-geometry radial" step in the mask
+  section, with the distinction that matters — layers meant to hit a specific point need a hard
+  core, layers meant to lift a whole body do not, and forcing `r ≤ 0.7` on the latter just
+  smears the effect over twice the area.
+- README (both languages): script tree and the mask example updated to the real entry points.
+
 ## [0.2.0] — 2026-11-10
 
 Reframes what this project is actually selling, and records the three failure modes found

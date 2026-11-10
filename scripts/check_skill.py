@@ -68,6 +68,10 @@ CHECKS = [
     ("37 交接单", "SKILL.md", ["交接单", "骨架层"]),
     ("38 对外表述顺序", "README.zh-CN.md", ["生成式", "一个字节都没动"]),
     ("39 价值判断登记", "references/user-corrections.md", ["照片还是你的"]),
+    ("40 蒙版写入工具", "scripts/mask_tool.py", ["mask_fit", "回读"]),
+    ("41 层参数修改工具", "scripts/set_layer.py", ["回读校验", "按层名"]),
+    ("42 椭圆拟合工具", "scripts/mask_fit.py", ["feather", "偏弱"]),
+    ("43 椭圆规则已入正文", "SKILL.md", ["mask_fit", "r ≤ 0.71"]),
 ]
 
 

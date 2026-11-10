@@ -341,11 +341,14 @@ lr-ai-retouch/
 ├── scripts/
 │   ├── lr_bridge.py            # 桥接客户端（读写参数、蒙版、导出）
 │   ├── lr_masks.py             # 蒙版构造函数（含布尔层）
+│   ├── mask_tool.py            # 主力：按 spec 批量写层，写完回读校验
+│   ├── set_layer.py            # 主力：按层名改已有层，不重写整棵树
+│   ├── mask_fit.py             # 算径向安全半轴 / 体检已有几何够不够
 │   ├── export_shot.py          # 带 AI 蒙版的照片导出（自动处理弹框）
 │   ├── orig_compare.py         # 原图 ↔ 定稿对比（收尾必跑）
 │   ├── auto_wb.py              # 白平衡诊断
 │   ├── qc.py / depth_qc.py     # 质量体检（风光专用）
-│   └── check_skill.py          # 自检：45 项文档完整性
+│   └── check_skill.py          # 自检：49 项文档完整性
 └── assets/plugin/AIBridge.lrplugin/   # Lightroom 插件本体（Lua）
 ```
 

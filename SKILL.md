@@ -228,6 +228,24 @@ python scripts/lr_bridge.py export --path "<照片>" --dest orig --long-edge 240
 **主体的一部分一律走布尔。** 一个径向框打在蛇头上，框内的苔藓会跟着亮，
 用户一眼就能看出来「你这么一打，背景也亮了」。
 
+**写纯几何的径向之前，先跑 `scripts/mask_fit.py`。**
+星形主体（花瓣、叶尖、刺）的尖端很容易落进羽化带，肉眼看「框完全盖住了花」，
+实际力度只剩三成——实测一张山丹，`EV −0.26` 只把红通道溢出从 36% 压到 34%。
+工具按「线性向内衰减」模型反推安全半轴：
+
+```bash
+python scripts/mask_fit.py --mask subj.png --feather 32      # 算安全几何
+python scripts/mask_fit.py --mask subj.png --spec layers.json # 体检已有层
+```
+
+判据：`feather 32、要求尖端 alpha≥0.9` → 尖端必须落在 **r ≤ 0.71**，
+比凭眼睛估的 0.85 严格得多，而那 0.85 正是翻车的地方。
+反向验证：同一朵花，实际修好的那版偏弱像素 0.7%（判 OK），
+按包围盒直接当框的那版偏弱 20.3%（判不够）。
+
+注意两种层的要求不同：**要精确压到某个点的层**（花瓣尖端回收高光）必须过硬核心；
+**只是整体提一点的层**（兽身、远山）尖端软掉没关系，别为了 r≤0.7 把椭圆放到 2 倍大。
+
 布尔写法（已实测可用）：
 ```python
 from lr_masks import build_bool_layer
@@ -411,8 +429,11 @@ Lightroom SDK 能写：全局 develop settings、蒙版组与蒙版几何、局�
 | 脚本 | 用途 |
 | --- | --- |
 | `scripts/lr_bridge.py` | 桥接客户端：ping/selection/dump/develop-set/tree-set/export/import |
-| `scripts/mask_append.py` | 追加蒙版层，自带备份与回读校验 |
-| `scripts/lr_masks.py` | 蒙版构造库：`build_layer` / `build_from_specs`，自动换算量纲 |
+| `scripts/mask_append.py` | 追加蒙版层（底层实现），自带备份与回读校验 |
+| `scripts/mask_tool.py` | **主力：按 spec 批量写层**，支持 AI 主体 / 反相 / 布尔相交，写完回读校验 |
+| `scripts/set_layer.py` | **主力：按层名改已有层的参数**，不重写整棵树，只碰点名的层 |
+| `scripts/mask_fit.py` | **写径向之前必跑**：从主体掩膜反推安全半轴，或体检已有几何够不够 |
+| `scripts/lr_masks.py` | 蒙版构造库：`build_layer` / `build_bool_layer` / `build_from_specs`，自动换算量纲 |
 | `scripts/qc.py` | 12 项阈值体检 |
 | `scripts/depth_qc.py` | 立体感体检：层级梯度、归一化 CV、大气透视 |
 | `scripts/auto_wb.py` | **白平衡诊断**：中性参考 + 场景先验，判可信度 |
