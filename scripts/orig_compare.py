@@ -40,15 +40,36 @@ sys.path.insert(0, HERE)
 import lr_bridge  # noqa: E402
 
 # 归零到"未修"的全局键（值即 LR 默认）
+# ⚠ 2026-11-10 用户抓出的错误：原列表只归零了曝光族 + HSL + 蒙版，
+# 漏掉了「分离色调」「颗粒」「暗角附属参数」——于是所谓"原图"里还带着
+# 上一次调的暖调和颗粒，而且每版的暖调数值不同，导致**每张对比图的上半部分都不一样**。
+# 凡是 applyDevelopSettings 能写的、且属于"调整"而非"相机默认"的键，都必须在这里。
 RESET_GLOBALS = {
+    # —— 曝光族 ——
     "Exposure2012": 0, "Contrast2012": 0, "Highlights2012": 0, "Shadows2012": 0,
     "Whites2012": 0, "Blacks2012": 0, "Texture": 0, "Clarity2012": 0,
     "Vibrance": 0, "Saturation": 0, "Dehaze": 0,
+    # —— 暗角：Amount 归零还不够，附属参数一起回默认，避免换风格时残留 ——
     "PostCropVignetteAmount": 0,
+    "PostCropVignetteMidpoint": 50, "PostCropVignetteFeather": 50,
+    "PostCropVignetteRoundness": 0, "PostCropVignetteStyle": 1,
+    "PostCropVignetteHighlightContrast": 0,
+    # —— 分离色调（**曾经漏掉，是"原图不一致"的主因**）——
+    "SplitToningHighlightHue": 0, "SplitToningHighlightSaturation": 0,
+    "SplitToningShadowHue": 0, "SplitToningShadowSaturation": 0,
+    "SplitToningBalance": 0,
+    # —— 颗粒（**曾经漏掉**）——
+    "GrainAmount": 0, "GrainSize": 0, "GrainFrequency": 0,
+    # —— 细节默认值（LR 新建照片时的默认，不是 0）——
     "Sharpness": 40, "SharpenRadius": 1.0, "SharpenDetail": 25,
     "SharpenEdgeMasking": 0, "LuminanceSmoothing": 0,
+    "LuminanceNoiseReductionDetail": 50, "LuminanceNoiseReductionContrast": 0,
+    # —— 裁切（不碰构图，但保证对比图同尺寸）——
     "CropLeft": 0, "CropTop": 0, "CropRight": 1, "CropBottom": 1, "CropAngle": 0,
 }
+# 相机校准族（默认全 0）。写进去更彻底；若 SDK 拒收会自动忽略，不影响其他键。
+CALIBRATION_KEYS = ["ShadowTint", "RedHue", "RedSaturation", "GreenHue", "GreenSaturation",
+                    "BlueHue", "BlueSaturation"]
 HSL_KEYS = [f"{kind}Adjustment{color}"
             for kind in ("Hue", "Saturation", "Luminance")
             for color in ("Red", "Orange", "Yellow", "Green", "Aqua", "Blue",
