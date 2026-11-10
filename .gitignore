@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Lightroom / bridge runtime
+/lr_bridge/
+inbox/
+outbox/
+heartbeat.txt
+plugin.log
+*.lrcat
+*.lrcat-data/
+*.lrdata/
+
+# Working output
+/out/
+/output/
+*.tmp
+
+# Editor / OS
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Local state dumps (contain full develop settings of your own photos)
+before*.json
+*_backup*.json
+*_state*.json
