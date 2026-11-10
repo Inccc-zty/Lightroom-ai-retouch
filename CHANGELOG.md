@@ -26,6 +26,9 @@ First public release.
   field-by-field verification → export final → stacked comparison. Three safety gates built in.
 - **`export_shot.py`**: export photos carrying AI masks without getting stuck on the
   "recommended AI update" dialog.
+- **`references/case-studies.md`**: three complete diagnosis-to-final walkthroughs
+  (snake on moss / orchid in meadow / marmot at its burrow), including the parameter
+  tables, measured results, and what went wrong in each.
 - **40 documented pitfalls** (`references/pitfalls.md`), each with measured data and cost.
 - **31 user corrections** (`references/user-corrections.md`) plus a 12-point pre-delivery
   checklist.

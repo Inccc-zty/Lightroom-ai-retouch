@@ -15,6 +15,45 @@
 
 ---
 
+## 这是什么
+
+**这是一个 AI Agent Skill。** 把整个目录放进你的 skills 目录
+（`~/.workbuddy/skills/lr-ai-retouch`），agent 就能直接操作 Lightroom Classic。
+如果你用的不是支持 skill 的工具，`references/` 也能当一套完整的后期方法论单独读。
+
+一个仓库里有三样东西：
+
+| | 是什么 | 在哪 |
+| --- | --- | --- |
+| **1. 一个 skill** | 入口：铁律、工作流、agent 调用的脚本 | `SKILL.md` + `scripts/` |
+| **2. 一套方法论** | 诊断框架、九步、蒙版配方、40 条踩坑，不写代码也能读 | `references/` |
+| **3. 一个 Lightroom 插件** | 让写入成为可能的 Lua 桥 | `assets/plugin/` |
+
+## 两个最该先知道的能力
+
+### 一、给它一篇网上的教程，它照着那个思路修
+
+丢给它一篇文章、一段视频字幕、一份预设说明，或者只说一句
+**「按网上那种修法来修这张」**，它会：
+
+1. **按公式搜**——`<题材> + <具体难点> + post processing`，不搜「怎么修图」这种大词
+2. **给来源分级**——只采纳被两篇以上独立来源同时提到的结论，单一来源只当参考
+3. **把教程里的每个数字拆成两类**——**风格决策**（可迁移，如「高光压死让云有重量」）
+   和**那张照片的解**（必须重算，如「曝光 −0.20」）
+4. **按你的直方图重算**，然后才动第一个滑块
+
+所以「修成教程里那种通透感」会变成一份具体方案，而不是套一个预设。
+完整流程在 [`references/style-transfer.md`](references/style-transfer.md)。
+
+### 二、先诊断，绝不把上一张的答案搬过来
+
+每张图都先问同一个问题：**它本来靠什么分开？** 物理上只有六把刀，
+不成立的那把，它不会硬造。
+
+这不是空话。同一个动作——降背景饱和——救活了一张（绿蛇在苔藓上），
+也毁了一张（草地里的杓兰）。三张照片从诊断到定稿的完整路径，
+包括错在哪，都在 [`references/case-studies.md`](references/case-studies.md)。
+
 ## 它解决什么问题
 
 现在的「AI 修图」大多停在两个层面：套预设（一张照片一个样），
@@ -260,6 +299,7 @@ lr-ai-retouch/
 │   ├── style-transfer.md       # 从教程/参考图提取风格
 │   ├── closed-loop.md          # 导出→测量→判断的闭环
 │   ├── aesthetics.md           # 审美判断（量化做不到的部分）
+│   ├── case-studies.md         # 三个完整案例：从诊断到定稿，含错在哪
 │   ├── pitfalls.md             # 40 条踩坑记录，每条带实测数据
 │   ├── user-corrections.md     # 31 条用户纠正 + 交付前 12 条核对
 │   └── bridge-setup.md         # 插件安装与故障排查
@@ -270,7 +310,7 @@ lr-ai-retouch/
 │   ├── orig_compare.py         # 原图 ↔ 定稿对比（收尾必跑）
 │   ├── auto_wb.py              # 白平衡诊断
 │   ├── qc.py / depth_qc.py     # 质量体检（风光专用）
-│   └── check_skill.py          # 自检：35 项文档完整性
+│   └── check_skill.py          # 自检：41 项文档完整性
 └── assets/plugin/AIBridge.lrplugin/   # Lightroom 插件本体（Lua）
 ```
 

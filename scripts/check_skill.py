@@ -58,6 +58,12 @@ CHECKS = [
     ("28b 键名勘误表", "references/develop-settings.md", ["Vibrance2012"]),
     ("29 每图必附原图对比", "SKILL.md", ["收尾必做", "orig_compare"]),
     ("29b 对比图工具存在", "scripts/orig_compare.py", ["归零", "逐键比对"]),
+    ("30 归零后诊断", "references/scene-diagnosis.md", ["零状态", "1.02"]),
+    ("31 分区双逻辑", "references/scene-diagnosis.md", ["分区处理", "风光", "动物"]),
+    ("32 案例库存在", "references/case-studies.md", ["复盘", "案例 A"]),
+    ("33 教程搜索策略", "references/style-transfer.md", ["关键词公式", "两篇以上独立来源"]),
+    ("34 贴纸感四因", "references/pitfalls.md", ["贴纸", "投影"]),
+    ("35 光斑破形", "references/pitfalls.md", ["椭圆", "feather"]),
 ]
 
 

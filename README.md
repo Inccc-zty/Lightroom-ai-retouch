@@ -25,6 +25,50 @@ dependencies — just files. Which also means it behaves identically on Windows 
 
 ---
 
+## What it is
+
+**This is an AI agent skill** — drop the folder into your agent's skills directory
+(`~/.workbuddy/skills/lr-ai-retouch`), and the agent can drive Lightroom Classic directly.
+If you're not using a skill-capable agent, the `references/` folder still reads fine on its own
+as a retouching methodology.
+
+Three things in one repository:
+
+| | What | Where |
+| --- | --- | --- |
+| **1. An agent skill** | The entry point: rules, workflow, and the scripts the agent calls | `SKILL.md` + `scripts/` |
+| **2. A methodology** | Diagnosis framework, nine steps, mask recipes, 40 pitfalls — readable without any code | `references/` |
+| **3. A Lightroom plugin** | The Lua bridge that makes write access possible | `assets/plugin/` |
+
+## Two capabilities that matter most
+
+### 1. Feed it a web tutorial — it retouches in that style
+
+Point your agent at an article, a video transcript, a preset write-up, or just say
+*"edit it the way people online edit this kind of photo"*. The skill then:
+
+1. **Searches properly** — `<genre> + <specific difficulty> + post processing`,
+   never "how to edit photos"
+2. **Grades the source** — only conclusions that two independent sources agree on get adopted;
+   a single source stays a reference
+3. **Splits every number in two** — *style decision* (transferable, e.g. "crush highlights so
+   clouds have weight") vs *that photo's solution* (must be recomputed, e.g. "exposure −0.20")
+4. **Recomputes against your histogram** before touching a single slider
+
+So "make it look like that tutorial" becomes a concrete plan instead of a preset dump.
+Full procedure in [`references/style-transfer.md`](references/style-transfer.md).
+
+### 2. Diagnose first — never carry the last photo's answer over
+
+Every photo gets the same first question: *what already separates the subject from the
+background?* There are exactly six physical tools, and the skill refuses to fake one that
+doesn't exist.
+
+This is not theory. The same action — desaturating the background — rescued one photo
+(snake on moss) and destroyed another (orchid in a meadow). See
+[`references/case-studies.md`](references/case-studies.md) for three complete
+diagnosis-to-final walkthroughs, including what went wrong.
+
 ## What this solves
 
 Most "AI photo editing" today sits at one of two levels: applying presets (every photo looks
@@ -255,6 +299,7 @@ lr-ai-retouch/
 │   ├── style-transfer.md       # extracting style from tutorials / reference images
 │   ├── closed-loop.md          # export → measure → judge
 │   ├── aesthetics.md           # the judgement measurement can't make
+│   ├── case-studies.md        # three complete diagnosis-to-final walkthroughs
 │   ├── pitfalls.md             # 40 documented failures, each with measured data
 │   ├── user-corrections.md     # 31 corrections + a 12-point pre-delivery checklist
 │   └── bridge-setup.md         # plugin install and troubleshooting
@@ -266,7 +311,7 @@ lr-ai-retouch/
 │   ├── orig_compare.py         # original ↔ final comparison (run before delivery)
 │   ├── auto_wb.py              # white balance diagnostics
 │   ├── qc.py / depth_qc.py     # quality checks
-│   └── check_skill.py          # self-check: documentation invariants
+│   └── check_skill.py          # self-check: 41 documentation invariants
 └── assets/plugin/AIBridge.lrplugin/   # the Lightroom plugin itself (Lua)
 ```
 
