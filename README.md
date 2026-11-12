@@ -392,3 +392,12 @@ boundaries. See [CONTRIBUTING.md](CONTRIBUTING.md).
 Every rule here came from real shooting and real mistakes. Special thanks to the moments that
 went "this version is worse than what I edited myself" — without them, this would just be a
 pile of pretty numbers.
+
+---
+
+**Keywords**: photography, photo editing, photo post-processing, retouching,
+automated retouching, Lightroom, Lightroom Classic, image processing, image editing,
+batch editing, local masks, AI agent skill.
+
+**关键词**：摄影 · 摄影后期 · 自动化修图 · 修图 · Lightroom · 图像处理 · 图像后期 ·
+批量修图 · 局部蒙版 · AI 智能体技能
