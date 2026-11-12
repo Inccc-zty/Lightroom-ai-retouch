@@ -7,6 +7,9 @@
 让 AI 真正操作你的 Lightroom Classic —— 不是模拟鼠标拖滑块，而是直接读写 develop settings
 和局部蒙版；每一次改动都导出验证。量化只做护栏，审美留给你。
 
+**关键词**：摄影 · 摄影后期 · 自动化修图 · 修图 · 图像处理 · 图像后期 ·
+批量修图 · 局部蒙版 · 风格迁移 · 智能修图助手
+
 ```
 原片 ──诊断──> 九步全局 ──> 分区蒙版 ──> 导出验证 ──> 定稿 + 原图对比
          ↑                      ↓
@@ -391,12 +394,3 @@ lr-ai-retouch/
 
 这个项目的每一条规则都来自真实拍摄和真实翻车。
 特别感谢那些说「这版不行，比我自己修的还差」的时刻——没有它们，这里只会有一堆漂亮的参数。
-
----
-
-**关键词**：摄影 · 摄影后期 · 自动化修图 · 修图 · Lightroom · Lightroom Classic ·
-图像处理 · 图像后期 · 批量修图 · 局部蒙版 · 预设与风格迁移 · AI 智能体技能（agent skill）
-
-**Keywords**: photography, photo editing, photo post-processing, retouching,
-automated retouching, Lightroom, Lightroom Classic, image processing, image editing,
-batch editing, local masks, AI agent skill.
